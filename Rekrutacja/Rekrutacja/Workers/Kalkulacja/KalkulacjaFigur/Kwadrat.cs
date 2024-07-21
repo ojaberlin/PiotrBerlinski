@@ -21,7 +21,14 @@ namespace Rekrutacja.Workers.Kalkulacja.Figury
                 throw new NegativeNumberException("Wprowadzona wartość 'A' nie może być ujemna");
             }
 
-            return (int)Math.Round(a * a);
+            var result = Math.Round(a * a);
+
+            if (result > int.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            return (int)result;
         }
     }
 }

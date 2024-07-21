@@ -86,6 +86,31 @@ namespace Rekrutacja.Tests
             Assert.That(ex.Message, Is.EqualTo("Nie znaleziono wybranej figury"));
         }
 
+        [Test]
+        public void PolePrzekraczaMaksymalnąWartośćRzucaWyjątek()
+        {
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => fabrykaFigur.InicjujFigurę(Figury.Kwadrat, int.MaxValue, 2).ObliczPolePowierzchni());
+        }
+
+        [Test]
+        public void PolePrzekraczaMaksymalnąWartośćRzucaWyjątek2()
+        {
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => fabrykaFigur.InicjujFigurę(Figury.Koło, int.MaxValue, 2).ObliczPolePowierzchni());
+        }
+
+        [Test]
+        public void PolePrzekraczaMaksymalnąWartośćRzucaWyjątek3()
+        {
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => fabrykaFigur.InicjujFigurę(Figury.Prostokąt, int.MaxValue, 2).ObliczPolePowierzchni());
+        }
+
+        [Test]
+        public void PolePrzekraczaMaksymalnąWartośćRzucaWyjątek4()
+        {
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => fabrykaFigur.InicjujFigurę(Figury.Trójkąt, int.MaxValue, 3).ObliczPolePowierzchni());
+        }
+
+
         #endregion
     }
 }

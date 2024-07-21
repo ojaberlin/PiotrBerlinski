@@ -22,7 +22,14 @@ namespace Rekrutacja.Workers.Kalkulacja.Figury
                 throw new NegativeNumberException("Wprowadzone wartości nie mogą być ujemne");
             }
 
-            return (int)Math.Round(a * h / 2);
+            var result = Math.Round(a * h / 2);
+
+            if (result > int.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            return (int)result;
         }
     }
 }
