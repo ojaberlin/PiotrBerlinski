@@ -6,6 +6,10 @@ using Rekrutacja.Workers.Template;
 using Soneta.Tools;
 using Rekrutacja.Workers.Kalkulacja;
 using Rekrutacja.Workers.Kalkulacja.OperacjeArytmetyczne;
+using Rekrutacja.Workers.Kalkulacja.Figury;
+using System.ComponentModel;
+using Mono.CSharp;
+using Soneta.Ksiega;
 
 //Rejetracja Workera - Pierwszy TypeOf określa jakiego typu ma być wyświetlany Worker, Drugi parametr wskazuje na jakim Typie obiektów będzie wyświetlany Worker
 [assembly: Worker(typeof(TemplateWorker), typeof(Pracownicy))]
@@ -16,7 +20,7 @@ namespace Rekrutacja.Workers.Template
         //Aby parametry działały prawidłowo dziedziczymy po klasie ContextBase
         public class TemplateWorkerParametry : ContextBase
         {
-            [Caption("A"), Priority(1)]
+            [Caption("A"), Priority(1), Required]
             public double ZmiennaX { get; set; }
 
             [Caption("B"), Priority(2)]
@@ -25,13 +29,12 @@ namespace Rekrutacja.Workers.Template
             [Caption("Data obliczeń"), Priority(3)]
             public Date DataObliczen { get; set; }
 
-            [Caption("Operacja"), Priority(4)]
-            public Operacje Operacja { get; set; }
+            [Caption("Figura"), Priority(4)]
+            public Figury Figura { get; set; }
 
             public TemplateWorkerParametry(Context context) : base(context)
             {
                 this.DataObliczen = Date.Today;
-                this.Operacja = Operacje.Dodawanie;
             }
         }
         //Obiekt Context jest to pudełko które przechowuje Typy danych, aktualnie załadowane w aplikacji
@@ -41,6 +44,7 @@ namespace Rekrutacja.Workers.Template
         //Pobieramy z Contextu parametry, jeżeli nie ma w Context Parametrów mechanizm sam utworzy nowy obiekt oraz wyświetli jego formatkę
         [Context]
         public TemplateWorkerParametry Parametry { get; set; }
+
         //Atrybut Action - Wywołuje nam metodę która znajduje się poniżej
         [Action("Kalkulator",
            Description = "Prosty kalkulator ",
@@ -71,15 +75,21 @@ namespace Rekrutacja.Workers.Template
                 //Otwieramy Transaction aby można było edytować obiekt z sesji
                 using (ITransaction trans = nowaSesja.Logout(true))
                 {
-                    IKalkulator kalkulator = new Kalkulator();
+                    FabrykaFigur fabrykaFigur = new FabrykaFigur();
+                    var wybranaFigura = fabrykaFigur.InicjujFigurę(Parametry.Figura);
+
+                    var polePowierzchni = wybranaFigura.ObliczPolePowierzchni(Parametry.ZmiennaX, Parametry.ZmiennaY);
                     foreach (var pracownik in pracownicy)
                     {
                         //Pobieramy obiekt z Nowo utworzonej sesji
                         var pracownikZSesja = nowaSesja.Get(pracownik);
                         //Features - są to pola rozszerzające obiekty w bazie danych, dzięki czemu nie jestesmy ogarniczeni to kolumn jakie zostały utworzone przez producenta
                         pracownikZSesja.Features["DataObliczen"] = this.Parametry.DataObliczen;
-                        pracownikZSesja.Features["Wynik"] = kalkulator.Oblicz(Parametry.ZmiennaX, Parametry.ZmiennaY, Parametry.Operacja);
-
+                        //wynik zwracamy jako int, jednak cecha jest dalej typem double - dlatego poniżej castuję.
+                        //Zmiana typu wyniku w systemowych opcjach -> definicje cech na liczbę całkowitą jest możliwa i sprawiłaby,
+                        //że poniższy cast nie byłby potrzebny, jednak taka zmiana tworzy niebezpieczeństwo destablizacji działania programu.
+                        //(najchętniej dopytałbym o szczegóły - czy zmiana typu cechy z liczby rzeczywistej jest pożądana/możliwa czy nie).
+                        pracownikZSesja.Features["Wynik"] = (double)polePowierzchni;
                     }
                     //Zatwierdzamy zmiany wykonane w sesji
                     trans.CommitUI();
