@@ -31,5 +31,31 @@ namespace Rekrutacja.Workers.Kalkulacja.Figury
                     throw new ArgumentException("Nie znaleziono wybranej figury");
             }
         }
+
+        public IFigura InicjujFigurę(Figury figura, string a, string b)
+        {
+            switch (figura)
+            {
+                case Figury.Trójkąt:
+                    {
+                        return new Trójkąt(a.ToInt(), b.ToInt());
+                    }
+                case Figury.Prostokąt:
+                    {
+                        return new Prostokąt(a.ToInt(), b.ToInt());
+                    }
+                case Figury.Kwadrat:
+                    {
+                        return new Kwadrat(a.ToInt());
+                    }
+                case Figury.Koło:
+                    {
+                        return new Koło(a.ToInt());
+                    }
+                default:
+                    throw new ArgumentException("Nie znaleziono wybranej figury");
+            }
+        }
+
     }
 }

@@ -21,10 +21,10 @@ namespace Rekrutacja.Workers.Template
         public class TemplateWorkerParametry : ContextBase
         {
             [Caption("A"), Priority(1), Required]
-            public double ZmiennaX { get; set; }
+            public string ZmiennaX { get; set; }
 
             [Caption("B"), Priority(2)]
-            public double ZmiennaY { get; set; }
+            public string ZmiennaY { get; set; }
 
             [Caption("Data obliczeń"), Priority(3)]
             public Date DataObliczen { get; set; }
