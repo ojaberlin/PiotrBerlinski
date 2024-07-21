@@ -3,6 +3,6 @@
     public interface IFigura
     {
         Figury Figura { get; }
-        int ObliczPolePowierzchni(double a, double b);
+        int ObliczPolePowierzchni();
     }
 }

@@ -76,9 +76,9 @@ namespace Rekrutacja.Workers.Template
                 using (ITransaction trans = nowaSesja.Logout(true))
                 {
                     FabrykaFigur fabrykaFigur = new FabrykaFigur();
-                    var wybranaFigura = fabrykaFigur.InicjujFigurę(Parametry.Figura);
+                    var wybranaFigura = fabrykaFigur.InicjujFigurę(Parametry.Figura, Parametry.ZmiennaX, Parametry.ZmiennaY);
 
-                    var polePowierzchni = wybranaFigura.ObliczPolePowierzchni(Parametry.ZmiennaX, Parametry.ZmiennaY);
+                    var polePowierzchni = wybranaFigura.ObliczPolePowierzchni();
                     foreach (var pracownik in pracownicy)
                     {
                         //Pobieramy obiekt z Nowo utworzonej sesji

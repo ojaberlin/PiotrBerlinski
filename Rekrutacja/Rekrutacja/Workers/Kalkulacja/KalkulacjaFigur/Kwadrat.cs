@@ -7,7 +7,14 @@ namespace Rekrutacja.Workers.Kalkulacja.Figury
     {
         public Figury Figura => Figury.Kwadrat;
 
-        public int ObliczPolePowierzchni(double a, double b)
+        private double a;
+
+        public Kwadrat(double a)
+        {
+            this.a = a;
+        }
+
+        public int ObliczPolePowierzchni()
         {
             if (a < 0)
             {

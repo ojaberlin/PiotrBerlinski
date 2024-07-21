@@ -25,28 +25,28 @@ namespace Rekrutacja.Tests
         [Test]
         public void TestPolaPowierzchniKoła()
         {
-            var rezultat = fabrykaFigur.InicjujFigurę(Figury.Koło).ObliczPolePowierzchni(5, 123);
+            var rezultat = fabrykaFigur.InicjujFigurę(Figury.Koło, 5, 123).ObliczPolePowierzchni();
             Assert.AreEqual(poprawnePoleKoła(5), rezultat);
         }
 
         [Test]
         public void TestPolaPowierzchniKwadratu()
         {
-            var rezultat = fabrykaFigur.InicjujFigurę(Figury.Kwadrat).ObliczPolePowierzchni(5, 123);
+            var rezultat = fabrykaFigur.InicjujFigurę(Figury.Kwadrat, 5, 123).ObliczPolePowierzchni();
             Assert.AreEqual(poprawnePoleKwadratu(5), rezultat);
         }
 
         [Test]
         public void TestPolaPowierzchniTrójkąta()
         {
-            var rezultat = fabrykaFigur.InicjujFigurę(Figury.Trójkąt).ObliczPolePowierzchni(5, 10);
+            var rezultat = fabrykaFigur.InicjujFigurę(Figury.Trójkąt, 5, 10).ObliczPolePowierzchni();
             Assert.AreEqual(poprawnePoleTrójkąta(5, 10), rezultat);
         }
 
         [Test]
         public void TestPolaPowierzchniProstokąta()
         {
-            var rezultat = fabrykaFigur.InicjujFigurę(Figury.Prostokąt).ObliczPolePowierzchni(5, 10);
+            var rezultat = fabrykaFigur.InicjujFigurę(Figury.Prostokąt, 5, 10).ObliczPolePowierzchni();
             Assert.AreEqual(poprawnePoleProstokąta(5, 10), rezultat);
         }
 
@@ -58,31 +58,31 @@ namespace Rekrutacja.Tests
         [Test]
         public void TestUjemnejWartościDlaKwadratuRzucaWyjątek()
         {
-            Assert.Throws<NegativeNumberException>(() => fabrykaFigur.InicjujFigurę(Figury.Kwadrat).ObliczPolePowierzchni(-5, 0));
+            Assert.Throws<NegativeNumberException>(() => fabrykaFigur.InicjujFigurę(Figury.Kwadrat, -5, 0).ObliczPolePowierzchni());
         }
 
         [Test]
         public void TestUjemnejWartościDlaKołaRzucaWyjątek()
         {
-            Assert.Throws<NegativeNumberException>(() => fabrykaFigur.InicjujFigurę(Figury.Koło).ObliczPolePowierzchni(-5, 0));
+            Assert.Throws<NegativeNumberException>(() => fabrykaFigur.InicjujFigurę(Figury.Koło, -5, 0).ObliczPolePowierzchni());
         }
 
         [Test]
         public void TestUjemnejWartościDlaTrójkątaRzucaWyjątek()
         {
-            Assert.Throws<NegativeNumberException>(() => fabrykaFigur.InicjujFigurę(Figury.Trójkąt).ObliczPolePowierzchni(-5, -12));
+            Assert.Throws<NegativeNumberException>(() => fabrykaFigur.InicjujFigurę(Figury.Trójkąt, -5, -12).ObliczPolePowierzchni());
         }
 
         [Test]
         public void TestUjemnejWartościDlaProstokątaRzucaWyjątek()
         {
-            Assert.Throws<NegativeNumberException>(() => fabrykaFigur.InicjujFigurę(Figury.Prostokąt).ObliczPolePowierzchni(-5, -112));
+            Assert.Throws<NegativeNumberException>(() => fabrykaFigur.InicjujFigurę(Figury.Prostokąt, -5, -112).ObliczPolePowierzchni());
         }
 
         [Test]
         public void NieZnalezionoFiguryRzucaWyjątek()
         {
-            var ex = Assert.Throws<ArgumentException>(() => fabrykaFigur.InicjujFigurę((Figury)1000).ObliczPolePowierzchni(-5, -112));
+            var ex = Assert.Throws<ArgumentException>(() => fabrykaFigur.InicjujFigurę((Figury)1000, -5, -112).ObliczPolePowierzchni());
             Assert.That(ex.Message, Is.EqualTo("Nie znaleziono wybranej figury"));
         }
 

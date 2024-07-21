@@ -6,24 +6,30 @@ namespace Rekrutacja.Workers.Kalkulacja.Figury
 {
     public class FabrykaFigur
     {
-        private List<IFigura> figury = new List<IFigura>()
-        {
-            new Koło(),
-            new Kwadrat(),
-            new Prostokąt(),
-            new Trójkąt()
-        };
 
-        public IFigura InicjujFigurę(Figury figura)
+        public IFigura InicjujFigurę(Figury figura, double a, double b)
         {
-            var wybranaFigura = figury.FirstOrDefault(x => x.Figura == figura);
-
-            if (wybranaFigura == null)
+            switch (figura)
             {
-                throw new ArgumentException("Nie znaleziono wybranej figury");
+                case Figury.Trójkąt:
+                {
+                    return new Trójkąt(a, b);
+                }
+                case Figury.Prostokąt:
+                {
+                    return new Prostokąt(a, b);
+                }
+                case Figury.Kwadrat:
+                {
+                    return new Kwadrat(a);
+                }
+                case Figury.Koło:
+                {
+                    return new Koło(a);
+                }
+                default:
+                    throw new ArgumentException("Nie znaleziono wybranej figury");
             }
-
-            return wybranaFigura;
         }
     }
 }

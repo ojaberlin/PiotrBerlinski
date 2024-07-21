@@ -7,7 +7,16 @@ namespace Rekrutacja.Workers.Kalkulacja.Figury
     {
         public Figury Figura => Figury.Prostokąt;
 
-        public int ObliczPolePowierzchni(double a, double b)
+        private double a;
+        private double b;
+
+        public Prostokąt(double a, double b)
+        {
+            this.a = a;
+            this.b = b;
+        }
+
+        public int ObliczPolePowierzchni()
         {
             if (a < 0 || b < 0)
             {
